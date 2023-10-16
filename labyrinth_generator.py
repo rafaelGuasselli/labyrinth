@@ -9,7 +9,9 @@ class LabyrinthGenerator:
 
 	def generate(self, map):
 		seed(self.getRandomInt(0, 1000000))
-		y, x = (self.getRandomInt(0, self.height-1), self.getRandomInt(0, self.width-1))
+		y = self.getRandomInt(0, self.height-1)
+		x = self.getRandomInt(0, self.width-1)
+		
 		self.dfs(map, (y, x), (0, 0))
 		self.generateExit(map)
 
