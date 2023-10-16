@@ -5,8 +5,7 @@ class Map:
 	def __init__(self, size):
 		self.height, self.width = size
 		self.map = self.createEmptyMap(size)
-		self.generator = LabyrinthGenerator()
-		self.generator.generate(self.map, size)
+		LabyrinthGenerator().generate(self.map, size)
 
 	def createEmptyMap(self, size):
 		height, width = size
