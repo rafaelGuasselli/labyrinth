@@ -50,5 +50,5 @@ class Block:
 		#string += "|" if self.walls["weast"] else " "
 		string += "‾" if self.walls["north"] else " "
 		#string += "_" if self.walls["south"] else " "
-		string += "|" if self.walls["east"] else " "
+		string += "|" if self.walls["east"] else "‾"
 		return string
