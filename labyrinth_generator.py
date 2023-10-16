@@ -29,7 +29,7 @@ class LabyrinthGenerator:
 				self.dfs(map, pos, (y - ny, x - nx))
 
 	def generateExit(self, map):
-		y = self.getRandomInt(0, self.height - 1)
+		y = self.getRandomInt(self.height // 2, self.height - 1)
 		x = self.width - 1
 		map[y][x].setExit(True)
 
