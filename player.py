@@ -3,4 +3,4 @@ class Player:
 		self.position = position
 
 	def render():
-		print("0")
+		return "0"

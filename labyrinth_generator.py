@@ -1,7 +1,9 @@
+import sys
 from block import Block
 from random import random, shuffle, seed
-import sys
+
 sys.setrecursionlimit(10**8)
+
 
 class LabyrinthGenerator:
 	def __init__(self, size):
@@ -9,9 +11,9 @@ class LabyrinthGenerator:
 
 	def generate(self, map):
 		seed(self.getRandomInt(0, 1000000))
-		y = self.getRandomInt(0, self.height-1)
-		x = self.getRandomInt(0, self.width-1)
-		
+		y = self.getRandomInt(0, self.height - 1)
+		x = self.getRandomInt(0, self.width - 1)
+
 		self.dfs(map, (y, x), (0, 0))
 		self.generateExit(map)
 
@@ -29,7 +31,8 @@ class LabyrinthGenerator:
 				self.dfs(map, pos, (y - ny, x - nx))
 
 	def generateExit(self, map):
-		y, x = (self.getRandomInt(0, self.height-1), self.width - 1)
+		y = self.getRandomInt(0, self.height - 1)
+		x = self.width - 1
 		map[y][x].setExit(True)
 
 	def isPlaceEmpty(self, map, pos):
@@ -39,8 +42,8 @@ class LabyrinthGenerator:
 		return False
 
 	def getRandomInt(self, min, max):
-		return int(random() * (max-min)) + min
-		
+		return int(random() * (max - min)) + min
+
 	def createQueueOfBlocksToLookNext(self, y, x):
 		queue = [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)]
 		shuffle(queue)

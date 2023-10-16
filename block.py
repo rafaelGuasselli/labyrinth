@@ -5,7 +5,7 @@ class Block:
 			"south": True,
 			"east": True,
 			"weast": True,
-			"invalid": True
+			"invalid": True,
 		}
 
 		self.isExit = False
@@ -13,7 +13,7 @@ class Block:
 	def canPlayerMoveTo(self, direction):
 		direction = self.directionToLabel(direction)
 		return not self.walls[direction]
-	
+
 	def setExit(self, value):
 		self.isExit = value
 		self.walls["east"] = not value
@@ -30,13 +30,20 @@ class Block:
 
 	def directionToLabel(self, direction):
 		y, x = direction
-		if y == x and x == 0: return "invalid"
-		if y == x and x == 1: return "invalid"
-		if abs(x) > 1 or abs(y) > 1: return "invalid"
-		if y == -1: return "north"
-		if y == 1: return "south"
-		if x == -1: return "weast"
-		if x == 1: return "east"  
+		if y == x and x == 0:
+			return "invalid"
+		if y == x and x == 1:
+			return "invalid"
+		if abs(x) > 1 or abs(y) > 1:
+			return "invalid"
+		if y == -1:
+			return "north"
+		if y == 1:
+			return "south"
+		if x == -1:
+			return "weast"
+		if x == 1:
+			return "east"
 
 	def render(self):
 		string = ""
