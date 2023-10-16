@@ -16,7 +16,7 @@ class Block:
 	
 	def setExit(self, value):
 		self.isExit = value
-		self.walls["east"] = False
+		self.walls["east"] = not value
 
 	def openWall(self, direction):
 		direction = self.directionToLabel(direction)
