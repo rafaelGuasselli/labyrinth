@@ -19,11 +19,15 @@ class Map:
 				line.append(None)
 			self.map.append(line)
 
-	def render(self):
+	def render(self):		
 		string = ""
 		for l in range(0, self.height):
+			string += "|"
 			for c in range(0, self.width):
 				string += self.map[l][c].render()
 			string += "\n"
+
+		for i in range(0, self.width):
+			string+= "‾‾"
 
 		return string
