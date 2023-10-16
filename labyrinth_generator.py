@@ -6,10 +6,8 @@ sys.setrecursionlimit(10**8)
 
 
 class LabyrinthGenerator:
-	def __init__(self, size):
+	def generate(self, map, size):
 		self.height, self.width = size
-
-	def generate(self, map):
 		seed(self.getRandomInt(0, 1000000))
 		y = self.getRandomInt(0, self.height - 1)
 		x = self.getRandomInt(0, self.width - 1)

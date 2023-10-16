@@ -3,15 +3,11 @@ from labyrinth_generator import LabyrinthGenerator
 
 class Map:
 	def __init__(self, size):
-		self.height, self.width = size
-		self.generator = LabyrinthGenerator(size)
-		self.createMap()
+		self.createEmptyMap()
+		self.generator = LabyrinthGenerator()
+		self.generator.generate(self.map, size)
 
-	def createMap(self):
-		self.clearMap()
-		self.generator.generate(self.map)
-
-	def clearMap(self):
+	def createEmptyMap(self):
 		self.map = []
 		for i in range(0, self.height):
 			line = []
