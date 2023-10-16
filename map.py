@@ -27,7 +27,7 @@ class Map:
 				string += self.map[l][c].render()
 			string += "\n"
 
-		for i in range(0, self.width):
-			string+= "‾‾"
+		for i in range(0, self.width*2+1):
+			string+= "‾"
 
 		return string
