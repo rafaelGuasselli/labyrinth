@@ -4,7 +4,7 @@ class Block:
 			"north": True,
 			"south": True,
 			"east": True,
-			"weast": True,
+			"west": True,
 			"invalid": True,
 		}
 
@@ -41,13 +41,13 @@ class Block:
 		if y == 1:
 			return "south"
 		if x == -1:
-			return "weast"
+			return "west"
 		if x == 1:
 			return "east"
 
 	def render(self):
 		string = ""
-		#string += "|" if self.walls["weast"] else " "
+		#string += "|" if self.walls["west"] else " "
 		string += "‾" if self.walls["north"] else " "
 		#string += "_" if self.walls["south"] else " "
 		string += "|" if self.walls["east"] else "‾"

@@ -1,7 +1,7 @@
 from labyrinth_generator import LabyrinthGenerator
 
 
-class Map:
+class Level:
 	def __init__(self, size):
 		self.height, self.width = size
 		self.map = self.createEmptyMap(size)

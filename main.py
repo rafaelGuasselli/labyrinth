@@ -1,5 +1,5 @@
-from map import Map
+from map import Level
 
 h, w = map(int, input().split())
-map = Map((h, w))
+map = Level((h, w))
 print(map.render())
