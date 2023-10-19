@@ -1,3 +1,5 @@
+import pygame
+
 class Block:
 	def __init__(self):
 		self.walls = {
@@ -45,7 +47,31 @@ class Block:
 		if x == 1:
 			return "east"
 
-	def render(self):
+	def render(self, surface, blockSize, blockPosition, wallBorderSize):
+		color = (150,150,150)
+		y, x = blockPosition
+		wallSize = blockSize
+
+		north = (x, y, blockSize, wallBorderSize)
+		south = (x, y + blockSize - wallBorderSize, blockSize, wallBorderSize)
+		west  = (x, y, wallBorderSize, blockSize)
+		east  = (x + blockSize - wallBorderSize, y, wallBorderSize, blockSize)
+
+		if self.walls["north"]:
+			pygame.draw.rect(surface, color, pygame.Rect(north[0], north[1], north[2], north[3]))
+			
+		if self.walls["south"]:
+			pygame.draw.rect(surface, color, pygame.Rect(south[0], south[1], south[2], south[3]))
+
+		if self.walls["east"]:
+			pygame.draw.rect(surface, color, pygame.Rect(east[0], east[1], east[2], east[3]))
+
+		if self.walls["west"]:
+			pygame.draw.rect(surface, color, pygame.Rect(west[0], west[1], west[2], west[3]))
+		
+
+
+	def renderString(self):
 		string = ""
 		#string += "|" if self.walls["west"] else " "
 		string += "‾" if self.walls["north"] else " "

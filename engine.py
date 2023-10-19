@@ -1,21 +1,22 @@
+from event_handler import EventHandler
 import pygame
 import types
 
-class Engine:
+class Engine(EventHandler):
 	def __init_(self):
-		pygame.init()
+		super().__init__()
 		
 		self.fps = 30
 		self.level = None
 		self.events = {}
-		self.surface = pygame.display.set_mode((0, 0))
 		self.runnning = False
-		
-		self.on("keydown", lambda keys: self.triggerEvent("exit") if keys[pygame.K_ESCAPE] else "")
-		self.on("exit", types.MethodType(self.stop, self))
 	
 	def start(self):
+		pygame.init()
+		
 		self.running = True
+		self.surface = pygame.display.set_mode((500,500), pygame.RESIZABLE)
+		self.clock = pygame.time.Clock()
 		while self.running:
 			self.triggerEvents(pygame.event.get())
 			if not self.running: 
@@ -24,29 +25,22 @@ class Engine:
 			self.surface.fill("black")
 			self.triggerEvent("render", self.surface)
 			pygame.display.flip()
-			clock.tick(self.fps)
+			self.clock.tick(self.fps)
 			
 	def stop(self):
 		self.running = False
 		pygame.quit()
 
-	def on(self, event, callback):
-		if not isinstance(self.events[event], list):
-			self.events[event] = []
-		self.events[event].append(callback)
+	def setFps(self, value):
+		self.fps = value
 
 	def triggerEvents(self, events):
-		for events in events:
+		for event in events:
 			if event.type == pygame.QUIT:
-				self.triggerEvent("exit")
+				self.triggerEvent("exit", None)
 			
 			if event.type == pygame.KEYDOWN:
-				self.triggerEvent("keydown", pygame.key.get_pressed())
-			
-	def triggerEvent(self, event, data):
-		for callback in self.events[event]:
-			if callable(callback):
-				callback(data)
+				self.triggerEvent("keydown", event.key)
 
 	def setLevel(self, level):
 		self.level = level
