@@ -1,22 +1,25 @@
 from maze_generator import MazeGenerator
+from action_handler import ActionHandler
 from event_handler import EventHandler
 from player import Player
 import pygame
 
 
-class Level(EventHandler):
+class Level(EventHandler, ActionHandler):
 	def __init__(self, startSize):
-		super().__init__()
-		self.startSize = startSize
-		self.height, self.width = startSize
-		self.player = Player(self)
-		self.createLevel(startSize)
-		self.keyEvents = {
+		EventHandler.__init__(self)
+		ActionHandler.__init__(self, {
 			pygame.K_COMMA: self.previousLevel,
 			pygame.K_PERIOD: self.nextLevel,
-		}
+		})
 
+		self.startSize = startSize
+		self.height, self.width = startSize
+
+		self.player = Player(self)
 		self.player.on("win", self.nextLevel)
+
+		self.createLevel(startSize)
 
 	def nextLevel(self):
 		self.height, self.width = (self.height + 3, self.width + 3)
@@ -45,33 +48,17 @@ class Level(EventHandler):
 			map.append(line)
 		return map
 	
-	def close(self):
-		self.triggerEvent("close")
-	
-	def checkIfPlayerReachExit(self, position):
+	def isExit(self, position):
 		y, x = position
-		reached = self.map[y][x].isExit
-		return reached
+		return self.map[y][x].isExit
 
 	def canPlayerMoveTo(self, position, direction):
 		y, x = position
-		if y < 0 or x < 0:
-			return False
-		if y >= self.height or x >= self.width:
-			return False
 		return self.map[y][x].canPlayerMoveTo(direction)
 
 	def handleKeyDown(self, key):
-		self.runAction(key)
+		super().runAction(key, None)
 		self.player.handleKeyDown(key)
-
-		
-	def runAction(self, key):
-		action = None
-		if key in self.keyEvents:
-			action = self.keyEvents[key]
-		if callable(action):
-			action()
 
 	def render(self, surface):
 		ww, wh = surface.get_size()

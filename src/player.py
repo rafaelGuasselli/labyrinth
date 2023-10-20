@@ -1,11 +1,12 @@
+from action_handler import ActionHandler
 from event_handler import EventHandler
 import pygame
 
-class Player(EventHandler):
+class Player(EventHandler, ActionHandler):
 	def __init__(self, level):
-		super().__init__()
 		self.level = level
-		self.keyEvents = {
+		EventHandler.__init__(self)
+		ActionHandler.__init__(self, {
 			pygame.K_UP: self.up,
 			pygame.K_DOWN: self.down,
 			pygame.K_LEFT: self.left,
@@ -14,20 +15,13 @@ class Player(EventHandler):
 			pygame.K_s: self.down,
 			pygame.K_a: self.left,
 			pygame.K_d: self.right,
-		}
-
+		})
+	
 	def setPosition(self, position):
 		self.y, self.x = position
 
 	def handleKeyDown(self, key):
-		self.runAction(key)
-
-	def runAction(self, key):
-		action = None
-		if key in self.keyEvents:
-			action = self.keyEvents[key]
-		if callable(action):
-			action()
+		super().runAction(key, None)
 
 	def up(self):
 		self.move((-1, 0))
@@ -39,7 +33,7 @@ class Player(EventHandler):
 		self.move((0, -1))
 
 	def right(self):
-		win = self.level.checkIfPlayerReachExit((self.y, self.x))
+		win = self.level.isExit((self.y, self.x))
 		if win:
 			self.triggerEvent("win", None)
 			return

@@ -18,7 +18,8 @@ class Block:
 
 	def setExit(self, value):
 		self.isExit = value
-		self.walls["east"] = not value
+		if value:
+			self.walls["east"] = False
 
 	def openWall(self, direction):
 		direction = self.directionToLabel(direction)
@@ -34,7 +35,7 @@ class Block:
 		y, x = direction
 		if y == x and x == 0:
 			return "invalid"
-		if y == x and x == 1:
+		if abs(y) == abs(x) and abs(x) == 1:
 			return "invalid"
 		if abs(x) > 1 or abs(y) > 1:
 			return "invalid"
@@ -68,8 +69,6 @@ class Block:
 
 		if self.walls["west"]:
 			pygame.draw.rect(surface, color, pygame.Rect(west[0], west[1], west[2], west[3]))
-		
-
 
 	def renderString(self):
 		string = ""

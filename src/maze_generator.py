@@ -28,21 +28,21 @@ class MazeGenerator:
 				map[y][x].openWall((ny - y, nx - x))
 				self.dfs(map, pos, (y - ny, x - nx))
 
-	def generateExit(self, map):
-		y = self.getRandomInt(self.height // 2, self.height - 1)
-		x = self.width - 1
-		map[y][x].setExit(True)
-
 	def isPlaceEmpty(self, map, pos):
 		y, x = pos
 		if y >= 0 and x >= 0 and y < self.height and x < self.width:
 			return map[y][x] == None
 		return False
 
-	def getRandomInt(self, min, max):
-		return int(random() * (max - min)) + min
+	def generateExit(self, map):
+		y = self.getRandomInt(self.height // 2, self.height - 1)
+		x = self.width - 1
+		map[y][x].setExit(True)
 
 	def createQueueOfBlocksToLookNext(self, y, x):
 		queue = [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)]
 		shuffle(queue)
 		return queue
+
+	def getRandomInt(self, min, max):
+		return int(random() * (max - min)) + min

@@ -10,8 +10,9 @@ class EventHandler:
 	def triggerEvent(self, event, data):
 		if not event in self.events: return
 		for callback in self.events[event]:
-			if callable(callback):
-				if data:
-					callback(data)
-				else:
-					callback()
+			if not callable(callback):
+				continue
+			if data:
+				callback(data)
+			else:
+				callback()
