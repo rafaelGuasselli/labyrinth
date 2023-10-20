@@ -16,6 +16,8 @@ class Level(EventHandler):
 			pygame.K_PERIOD: self.nextLevel,
 		}
 
+		self.player.on("win", self.nextLevel)
+
 	def nextLevel(self):
 		self.height, self.width = (self.height + 3, self.width + 3)
 		self.createLevel((self.height, self.width))
@@ -24,7 +26,6 @@ class Level(EventHandler):
 		startH, startW = self.startSize
 		self.height, self.width = (max(self.height - 3, startH), max(self.width - 3, startW))
 		self.createLevel((self.height, self.width))
-	
 
 	def createLevel(self, size):
 		self.height, self.width = size
@@ -50,8 +51,7 @@ class Level(EventHandler):
 	def checkIfPlayerReachExit(self, position):
 		y, x = position
 		reached = self.map[y][x].isExit
-		if reached:
-			self.triggerEvent("win", None)
+		return reached
 
 	def canPlayerMoveTo(self, position, direction):
 		y, x = position

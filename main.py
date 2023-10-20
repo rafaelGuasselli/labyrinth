@@ -8,6 +8,4 @@ engine.setFps(30)
 engine.on("exit", engine.stop)
 engine.on("render", level.render)
 engine.on("keydown", level.handleKeyDown)
-level.on("win", level.nextLevel)
-
 engine.start()
