@@ -8,13 +8,24 @@ import pygame
 class Level(EventHandler):
 	def __init__(self, startSize):
 		super().__init__()
+		self.startSize = startSize
 		self.height, self.width = startSize
 		self.player = Player(self)
 		self.createLevel(startSize)
-	
+		self.keyEvents = {
+			pygame.K_COMMA: self.previousLevel,
+			pygame.K_PERIOD: self.nextLevel,
+		}
+
 	def nextLevel(self):
 		self.height, self.width = (self.height + 3, self.width + 3)
 		self.createLevel((self.height, self.width))
+	
+	def previousLevel(self):
+		startH, startW = self.startSize
+		self.height, self.width = (max(self.height - 3, startH), max(self.width - 3, startW))
+		self.createLevel((self.height, self.width))
+	
 
 	def createLevel(self, size):
 		self.height, self.width = size
@@ -22,6 +33,7 @@ class Level(EventHandler):
 		self.player.setPosition((0,0))
 		LabyrinthGenerator().generate(self.map, size)
 		print(self.renderString())
+		print(size)
 
 	def createEmptyMap(self, size):
 		height, width = size
@@ -51,18 +63,26 @@ class Level(EventHandler):
 		return self.map[y][x].canPlayerMoveTo(direction)
 
 	def handleKeyDown(self, key):
+		self.runAction(key)
 		self.player.handleKeyDown(key)
+
+		
+	def runAction(self, key):
+		action = None
+		if key in self.keyEvents:
+			action = self.keyEvents[key]
+		if callable(action):
+			action()
 
 	def render(self, surface):
 		ww, wh = surface.get_size()
-
-		UI_SIZE = 0
 		mh, mw = mapSize = (wh, ww)
-		blockSize = max(min(mh/self.height, mw/self.width)/3, 1) * 3
-		wallBorderSize = 2
+		blockSize = min(mh/self.height, mw/self.width)
+		wallBorderSize = 1
 
-		padding = (ww - (blockSize * self.width))/2
-		my, mx = mapPosition = (0, padding)
+		paddingH = (ww - (blockSize * self.width))/2
+		paddingV = (wh - (blockSize * self.height))/2
+		my, mx = mapPosition = (paddingV, paddingH)
 
 		self.player.render(surface, blockSize, mapPosition)
 		for l in range(0, self.height):

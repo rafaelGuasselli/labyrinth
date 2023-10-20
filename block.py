@@ -50,11 +50,11 @@ class Block:
 	def render(self, surface, blockSize, blockPosition, wallBorderSize):
 		color = (150,150,150)
 		y, x = blockPosition
-		wallSize = blockSize
-
+		
 		north = (x, y, blockSize, wallBorderSize)
-		south = (x, y + blockSize - wallBorderSize, blockSize, wallBorderSize)
 		west  = (x, y, wallBorderSize, blockSize)
+
+		south = (x, y + blockSize - wallBorderSize, blockSize, wallBorderSize)
 		east  = (x + blockSize - wallBorderSize, y, wallBorderSize, blockSize)
 
 		if self.walls["north"]:
