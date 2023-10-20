@@ -1,4 +1,4 @@
-from labyrinth_generator import LabyrinthGenerator
+from maze_generator import MazeGenerator
 from event_handler import EventHandler
 from player import Player
 import pygame
@@ -31,7 +31,7 @@ class Level(EventHandler):
 		self.height, self.width = size
 		self.map = self.createEmptyMap(size)
 		self.player.setPosition((0,0))
-		LabyrinthGenerator().generate(self.map, size)
+		MazeGenerator().generate(self.map, size)
 		print(self.renderString())
 		print(size)
 

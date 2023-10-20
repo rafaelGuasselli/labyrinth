@@ -5,7 +5,7 @@ from random import random, shuffle, seed
 sys.setrecursionlimit(10**8)
 
 
-class LabyrinthGenerator:
+class MazeGenerator:
 	def generate(self, map, size):
 		self.height, self.width = size
 		seed(self.getRandomInt(0, 1000000))
