@@ -63,7 +63,7 @@ class Block:
 		if self.walls["south"]:
 			pygame.draw.rect(surface, color, pygame.Rect(south[0], south[1], south[2], south[3]))
 
-		if self.walls["east"]:
+		if self.walls["east"]:	
 			pygame.draw.rect(surface, color, pygame.Rect(east[0], east[1], east[2], east[3]))
 
 		if self.walls["west"]:
