@@ -1,7 +1,6 @@
 from labyrinth_generator import LabyrinthGenerator
 from event_handler import EventHandler
 from player import Player
-import types
 import pygame
 
 

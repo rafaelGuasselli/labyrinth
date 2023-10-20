@@ -1,6 +1,5 @@
 from event_handler import EventHandler
 import pygame
-import types
 
 class Player(EventHandler):
 	def __init__(self, level):

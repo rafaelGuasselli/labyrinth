@@ -1,6 +1,6 @@
 from event_handler import EventHandler
 import pygame
-import types
+
 
 class Engine(EventHandler):
 	def __init_(self):
