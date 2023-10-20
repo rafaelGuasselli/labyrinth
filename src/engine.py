@@ -10,6 +10,7 @@ class Engine(EventHandler):
 		self.level = None
 		self.events = {}
 		self.runnning = False
+		self.on("exit", engine.stop)
 	
 	def start(self):
 		pygame.init()
