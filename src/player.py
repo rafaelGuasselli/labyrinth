@@ -21,8 +21,8 @@ class Player(EventHandler, ActionHandler):
 		})
 
 	def tick(self):
-		if len(self.path) > 0:
-			self.move(self.path.pop(0))
+		if self.path and len(self.path) > 0:
+			self.move(self.path.pop())
 
 	def render(self, surface, blockSize, mapPosition):
 		py, px = (self.y, self.x)
@@ -35,7 +35,7 @@ class Player(EventHandler, ActionHandler):
 		pygame.draw.rect(surface, color, pygame.Rect(dx, dy, blockSize, blockSize))
 	
 	def solve(self):
-		if len(self.path) > 0:
+		if self.path and len(self.path) > 0:
 			return
 		size = (self.level.height, self.level.width)
 		pos = (self.y, self.x)
@@ -45,7 +45,7 @@ class Player(EventHandler, ActionHandler):
 		self.y, self.x = position
 
 	def handleKeyDown(self, key):
-		if len(self.path) > 0: 
+		if self.path and len(self.path) > 0: 
 			return
 		super().runAction(key, None)
 

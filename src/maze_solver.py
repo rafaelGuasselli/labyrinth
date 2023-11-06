@@ -11,31 +11,40 @@ class MazeSolver:
 		y, x = currentPosition
 		lookupQueue = self.createQueueOfBlocksToLookNext(y, x)
 		notVisited[y][x] = False
-		path = []
 
-		for pos in lookupQueue:
-			ny, nx = pos
-			dy, dx = direction = (ny-y, nx-x)
-			if self.isPlaceNotVisited(notVisited, pos) and map[y][x].canPlayerMoveTo(direction):
-				if self.isPlaceExit(map, pos):
-					return [direction, (0, 1)]
-				else:
-					subpath = self.dfs(map, pos, direction, notVisited)
-					if len(subpath) > 0:
-						return [direction] + subpath
-		return []
+		if self.isPlaceExit(map, currentPosition):
+			return [(0, 1), direction]
+	
+		for nextPos in lookupQueue:
+			ny, nx = nextPos
+			nextDirection = (ny-y, nx-x)
+			if self.isPlaceNotVisited(notVisited, nextPos) and self.canMoveTo(map, currentPosition, nextDirection):
+				subpath = self.dfs(map, nextPos, nextDirection, notVisited)
+				if subpath and len(subpath) > 0:
+					return subpath + [direction]
+		return False
 	
 	def isPlaceExit(self, map, pos):
 		y, x = pos
-		if y >= 0 and x >= 0 and y < self.height and x < self.width:
+		if self.isMatrixPosition(pos):
 			return map[y][x].isExit
+		return False
+	
+	def canMoveTo(self, map, pos, direction):
+		y, x = pos
+		if self.isMatrixPosition(pos):
+			return map[y][x].canPlayerMoveTo(direction)
 		return False
 	
 	def isPlaceNotVisited(self, notVisited, pos):
 		y, x = pos
-		if y >= 0 and x >= 0 and y < self.height and x < self.width:
+		if self.isMatrixPosition(pos):
 			return notVisited[y][x]
 		return False
+	
+	def isMatrixPosition(self, pos):
+		y, x = pos
+		return y >= 0 and x >= 0 and y < self.height and x < self.width
 
 	def createEmptyNotVisitedMatrix(self):
 		notVisited = []
