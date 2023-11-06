@@ -22,7 +22,7 @@ class Player(EventHandler, ActionHandler):
 
 	def tick(self):
 		if self.path and len(self.path) > 0:
-			self.move(self.path.pop())
+			self.move(self.path.pop(0))
 
 	def render(self, surface, blockSize, mapPosition):
 		py, px = (self.y, self.x)

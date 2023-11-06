@@ -13,15 +13,15 @@ class MazeSolver:
 		notVisited[y][x] = False
 
 		if self.isPlaceExit(map, currentPosition):
-			return [(0, 1), direction]
+			return [direction, (0, 1)]
 	
 		for nextPos in lookupQueue:
 			ny, nx = nextPos
 			nextDirection = (ny-y, nx-x)
 			if self.isPlaceNotVisited(notVisited, nextPos) and self.canMoveTo(map, currentPosition, nextDirection):
 				subpath = self.dfs(map, nextPos, nextDirection, notVisited)
-				if subpath and len(subpath) > 0:
-					return subpath + [direction]
+				if subpath:
+					return [direction] + subpath
 		return False
 	
 	def isPlaceExit(self, map, pos):
