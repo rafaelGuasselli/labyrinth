@@ -26,8 +26,12 @@ class Engine(EventHandler, ActionHandler):
 			if not self.running: 
 				return
 
+			self.tick()
 			self.render()
 			self.clock.tick(self.fps)
+
+	def tick(self):
+		super().triggerEvent("tick", None)
 
 	def render(self):
 		self.surface.fill("black")

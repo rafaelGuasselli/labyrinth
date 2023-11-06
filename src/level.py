@@ -13,6 +13,8 @@ class Level(EventHandler, ActionHandler):
 			pygame.K_PERIOD: self.nextLevel,
 		})
 
+		self.tickCount = 0
+		self.ticksPerFrame = 1
 		self.startSize = startSize
 		self.height, self.width = startSize
 
@@ -20,6 +22,40 @@ class Level(EventHandler, ActionHandler):
 		self.player.on("win", self.nextLevel)
 
 		self.createLevel(startSize)
+		
+	def tick(self):
+		self.tickCount = (self.tickCount + 1) % self.ticksPerFrame
+		if self.tickCount == 0:
+			self.player.tick()
+
+	def render(self, surface):
+		ww, wh = surface.get_size()
+		mh, mw = mapSize = (wh, ww)
+		blockSize = min(mh/self.height, mw/self.width)
+		wallBorderSize = 1
+
+		paddingH = (ww - (blockSize * self.width))/2
+		paddingV = (wh - (blockSize * self.height))/2
+		my, mx = mapPosition = (paddingV, paddingH)
+
+		self.player.render(surface, blockSize, mapPosition)
+		for l in range(0, self.height):
+			for c in range(0, self.width):
+				blockPosition = ((blockSize * l) + my, (blockSize * c) + mx)
+				self.map[l][c].render(surface, blockSize, blockPosition, wallBorderSize)
+
+	def renderString(self):
+		string = ""
+		for l in range(0, self.height):
+			string += "|"
+			for c in range(0, self.width):
+				string += self.map[l][c].renderString()
+			string += "\n"
+
+		for i in range(0, self.width*2+1):
+			string+= "‾"
+
+		return string
 
 	def nextLevel(self):
 		self.height, self.width = (self.height + 3, self.width + 3)
@@ -59,32 +95,3 @@ class Level(EventHandler, ActionHandler):
 	def handleKeyDown(self, key):
 		super().runAction(key, None)
 		self.player.handleKeyDown(key)
-
-	def render(self, surface):
-		ww, wh = surface.get_size()
-		mh, mw = mapSize = (wh, ww)
-		blockSize = min(mh/self.height, mw/self.width)
-		wallBorderSize = 1
-
-		paddingH = (ww - (blockSize * self.width))/2
-		paddingV = (wh - (blockSize * self.height))/2
-		my, mx = mapPosition = (paddingV, paddingH)
-
-		self.player.render(surface, blockSize, mapPosition)
-		for l in range(0, self.height):
-			for c in range(0, self.width):
-				blockPosition = ((blockSize * l) + my, (blockSize * c) + mx)
-				self.map[l][c].render(surface, blockSize, blockPosition, wallBorderSize)
-
-	def renderString(self):
-		string = ""
-		for l in range(0, self.height):
-			string += "|"
-			for c in range(0, self.width):
-				string += self.map[l][c].renderString()
-			string += "\n"
-
-		for i in range(0, self.width*2+1):
-			string+= "‾"
-
-		return string
