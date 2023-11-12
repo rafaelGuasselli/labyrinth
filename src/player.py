@@ -35,8 +35,6 @@ class Player(EventHandler, ActionHandler):
 		pygame.draw.rect(surface, color, pygame.Rect(dx, dy, blockSize, blockSize))
 	
 	def solve(self):
-		if self.path and len(self.path) > 0:
-			return
 		size = (self.level.height, self.level.width)
 		pos = (self.y, self.x)
 		self.path = MazeSolver().solve(self.level.map, size, pos)
