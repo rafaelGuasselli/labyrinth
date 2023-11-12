@@ -58,10 +58,14 @@ class Level(EventHandler, ActionHandler):
 		return string
 
 	def nextLevel(self):
+		if self.player.path and len(self.player.path) > 0:
+			return
 		self.height, self.width = (self.height + 3, self.width + 3)
 		self.createLevel((self.height, self.width))
 	
 	def previousLevel(self):
+		if self.player.path and len(self.player.path) > 0:
+			return
 		startH, startW = self.startSize
 		self.height, self.width = (max(self.height - 3, startH), max(self.width - 3, startW))
 		self.createLevel((self.height, self.width))
